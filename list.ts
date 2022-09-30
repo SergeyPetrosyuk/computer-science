@@ -15,9 +15,21 @@ class List {
         return this.store[index];
     }
 
-    // O(n) = 1
-    remove(index: number): ListType {
-        delete this.store[index];
+    // O(n) = n
+    remove(deleteAtIndex: number): ListType {
+        delete this.store[deleteAtIndex];
+
+        const list: ListType = {};
+        const keys = Object.keys(this.store);
+
+        for(let i = 0; i < (keys.length); i++) {
+            const storeKey: number = keys[i] as unknown as number;
+            const key = storeKey < deleteAtIndex ? storeKey : storeKey - 1
+            list[key] = this.store[storeKey];
+        }
+
+        this.store = list;
+
         return this.store;
     }
 
@@ -39,13 +51,18 @@ class List {
     // O(n) = n
     reverse(): string {
         // fix task 1
-        return '';
+        const length = Object.keys(this.store).length;
+        let reverseString = ''
+        for(let i = length - 1; i >= 0; i--) {
+            const separator = reverseString.length === 0 ? '' : ' ';
+            reverseString = reverseString + separator + this.store[i]
+        }
+        return reverseString;
     }
 
     // O(n) = 1
     length(): number {
-        // fix task 2
-        return 0;
+        return Object.keys(this.store).length;
     }
 
 }
